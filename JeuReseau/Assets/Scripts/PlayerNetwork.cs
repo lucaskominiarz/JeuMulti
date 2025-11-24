@@ -32,20 +32,17 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private GameObject cubeCrouch;
     [SerializeField][Range(0f, 100f)] private float sprintMultiplier;
     [SerializeField] private float tweenDuration = 0.2f;
-
+    
     private Transform cameraTransform;
     private bool canJump = true;
     private Vector3 direction;
     private bool sprinting = false;
     private bool crouching = false;
     private float baseMoveSpeed;
-    private int groundMask;
-
-
+    
     private void Awake()
     {
         baseMoveSpeed = moveSpeed;
-        groundMask = LayerMask.GetMask("Ground");
     }
 
     public override void OnNetworkSpawn()
@@ -117,7 +114,7 @@ public class PlayerNetwork : NetworkBehaviour
             rb.linearVelocity = new Vector3(deplacementFinal.x, rb.linearVelocity.y - fallSpeed * Time.deltaTime, deplacementFinal.z);
         }
 
-        // pour mettre canjump a true je met un empty au pied et je check si c'est assez proche du ground mais faut que je trouve un moyen de recup le transform (avec ontriggerenter other.transform?)
+        
         
 
         if (Input.GetButtonDown("Crouch"))
@@ -160,7 +157,22 @@ public class PlayerNetwork : NetworkBehaviour
         */
         
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+        {
+            canJump = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+        {
+            canJump = false;
+        }
+    }
+
     private Transform spawnedObjectTransform;
     [Rpc(SendTo.Server)]
     void DestroyObjectRpc()

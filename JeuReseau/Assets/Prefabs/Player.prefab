@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2447503974534430573}
   - component: {fileID: 726227079650481953}
   - component: {fileID: 4063719138436300432}
+  - component: {fileID: 6542973080520500706}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -109,8 +110,29 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.99999994, y: 1.0639285, z: 0.99999994}
-  m_Center: {x: 0, y: -0.46803683, z: 0}
+  m_Size: {x: 0.99999994, y: 1.040643, z: 0.99999994}
+  m_Center: {x: 0, y: -0.45639315, z: 0}
+--- !u!65 &6542973080520500706
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467320234963346763}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.99999994, y: 0.3942496, z: 0.99999994}
+  m_Center: {x: 0, y: -0.867125, z: 0}
 --- !u!1 &2005795120278185458
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,6 +221,7 @@ MonoBehaviour:
   crouchSpeed: 8
   cubeCrouch: {fileID: 2250260877071616966}
   sprintMultiplier: 25
+  tweenDuration: 0.2
 --- !u!114 &-7738398708377838105
 MonoBehaviour:
   m_ObjectHideFlags: 0
