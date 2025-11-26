@@ -148,9 +148,10 @@ GameObject:
   - component: {fileID: -7923460418328634742}
   - component: {fileID: 5086228826758670256}
   - component: {fileID: 4576264517884210124}
+  - component: {fileID: 7098955368056268067}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -184,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3448811966
+  GlobalObjectIdHash: 2709081034
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -333,6 +334,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5950796, y: 0.09387107, z: 0.5662033}
   m_Center: {x: -0.0032674624, y: -0.992569, z: 0.0028589866}
+--- !u!114 &7098955368056268067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2005795120278185458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc595cce9b4be0442abf19dc3a6b4565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRole
+  ShowTopMostFoldoutHeaderGroup: 1
+  currentRole:
+    m_InternalValue: 0
 --- !u!1 &2250260877071616966
 GameObject:
   m_ObjectHideFlags: 0

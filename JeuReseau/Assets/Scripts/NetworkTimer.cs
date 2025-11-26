@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Globalization;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -9,62 +8,46 @@ public class NetworkTimer : NetworkBehaviour
 {
     [SerializeField] private float timeToSwap = 60f;
     [SerializeField] private TMP_Text timerText;
-    [SerializeField] private float updateSpeed = 0.1f;
     [SerializeField] private float baseValue = 240f;
 
-    private float actualTimerValue = 0f;
-    private bool timerIsActive = true;
+    private NetworkVariable<float> timerValue = new(
+        0f,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
     private Coroutine timerCoroutine;
 
-    private void Awake()
+    public override void OnNetworkSpawn()
     {
-        actualTimerValue = baseValue;
-        RestartTimer();
+        timerValue.OnValueChanged += (_, newValue) =>
+        {
+            UpdateUI(newValue);
+        };
+
+        if (IsServer)
+        {
+            timerValue.Value = baseValue;
+            timerCoroutine = StartCoroutine(TimerCoroutine());
+        }
     }
 
     IEnumerator TimerCoroutine()
     {
-        while (timerIsActive)
+        while (timerValue.Value > 0)
         {
-            yield return new WaitForSecondsRealtime(updateSpeed);
-            actualTimerValue -= updateSpeed;
-            actualTimerValue = (float)Math.Round(actualTimerValue,2);
-            UpdateUi();
+            yield return new WaitForSeconds(1f);
+            timerValue.Value -= 1f;
+
+            if (Mathf.Abs(timerValue.Value % timeToSwap) < 0.1f)
+            {
+                GameManager.INSTANCE.SwapRolesServerRpc();
+            }
         }
     }
 
-    private void UpdateUi()
+    private void UpdateUI(float value)
     {
-        string newText = actualTimerValue.ToString();
-        if (actualTimerValue % 1 == 0 )
-        {
-            newText += ",0";
-        }
-        timerText.text = newText;
+        timerText.text = $"{value:0}";
     }
-
-    #region Timer Functions
-
-    public void StopTimer()
-    {
-        StopCoroutine(timerCoroutine);
-    }
-
-    public void RestartTimer()
-    {
-        if (timerCoroutine != null)
-        {
-            StopCoroutine(timerCoroutine);
-            
-        }
-        timerCoroutine = StartCoroutine(TimerCoroutine());
-    }
-
-    public void ResetTimer()
-    {
-        actualTimerValue = 0f;
-    }
-    
-    #endregion
-
 }

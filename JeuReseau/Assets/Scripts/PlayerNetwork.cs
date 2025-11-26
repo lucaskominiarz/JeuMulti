@@ -173,6 +173,19 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!IsOwner) return;
+        if (!collision.gameObject.CompareTag("Player")) return;
+        if (!collision.gameObject.TryGetComponent<PlayerRole>(out var otherRole)) return;
+        var myRole = GetComponent<PlayerRole>();
+        if (myRole.currentRole.Value == PlayerRole.Role.Seeker &&
+            otherRole.currentRole.Value == PlayerRole.Role.Hider)
+        {
+            EliminatePlayerServerRpc(collision.gameObject.GetComponent<NetworkObject>().NetworkObjectId);
+        }
+    }
+
     private Transform spawnedObjectTransform;
     [Rpc(SendTo.Server)]
     void DestroyObjectRpc()
@@ -185,6 +198,17 @@ public class PlayerNetwork : NetworkBehaviour
         spawnedObjectTransform = Instantiate(prefab,transform.position + new Vector3(0,Random.Range(2f,8f),0), Quaternion.identity).transform;
         spawnedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
     }
+
+    [Rpc(SendTo.Server)]
+    private void EliminatePlayerServerRpc(ulong targetId)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(targetId, out var targetObj))
+        {
+            targetObj.Despawn(true);
+            Debug.Log($"Hider {targetId} éliminé !");
+        }
+    }
+
 }
 
 public struct PlayerData : INetworkSerializable
