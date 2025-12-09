@@ -205,7 +205,7 @@ public class PlayerNetwork : NetworkBehaviour
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(targetId, out var targetObj))
         {
             targetObj.Despawn(true);
-            Debug.Log($"Hider {targetId} éliminé !");
+            Debug.Log($"Hider {targetId} mort");
         }
     }
 

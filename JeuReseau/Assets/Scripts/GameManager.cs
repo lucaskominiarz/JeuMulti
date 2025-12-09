@@ -40,8 +40,8 @@ public class GameManager : NetworkBehaviour
 
     private void OnClientJoin(ulong clientId)
     {
-        var playerObj = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
-        var role = playerObj.GetComponent<PlayerRole>();
+        NetworkObject playerObj = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+        PlayerRole role = playerObj.GetComponent<PlayerRole>();
 
         int playerCount = NetworkManager.Singleton.ConnectedClients.Count;
         if (playerCount % 2 == 1)
@@ -49,7 +49,7 @@ public class GameManager : NetworkBehaviour
         else
             role.currentRole.Value = PlayerRole.Role.Seeker;
 
-        Debug.Log($"Player {clientId} rejoint → rôle = {role.currentRole.Value}");
+        Debug.Log($"Player {clientId} rejoint : role = {role.currentRole.Value}");
     }
 
     public CameraScript CameraLookMe(Transform playerTransform)
@@ -79,7 +79,7 @@ public class GameManager : NetworkBehaviour
     {
         foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
         {
-            var role = client.PlayerObject.GetComponent<PlayerRole>();
+            PlayerRole role = client.PlayerObject.GetComponent<PlayerRole>();
 
             if (role.currentRole.Value == PlayerRole.Role.Hider)
                 role.currentRole.Value = PlayerRole.Role.Seeker;
@@ -87,6 +87,6 @@ public class GameManager : NetworkBehaviour
                 role.currentRole.Value = PlayerRole.Role.Hider;
         }
 
-        Debug.Log("SWAP effectué !");
+        Debug.Log("SWAP");
     }
 }
