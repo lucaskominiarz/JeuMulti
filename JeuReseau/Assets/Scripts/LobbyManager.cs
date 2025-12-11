@@ -30,19 +30,19 @@ public class LobbyManager : MonoBehaviour
 
 	async void Start()
 	{
-		//Sert a t'autentifier, tu t'en servira pour relier le compte steam
-		// il faut installer le  Steamworks SDK
-		//SignInWithSteamAsync
-
 		await UnityServices.InitializeAsync();
 
-		AuthenticationService.Instance.SignedIn += () => { Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId); };
+		if (!AuthenticationService.Instance.IsSignedIn)
+		{
+			await AuthenticationService.Instance.SignInAnonymouslyAsync();
+			AuthenticationService.Instance.SignedIn += () => 
+				Debug.Log("Signed in " + AuthenticationService.Instance.PlayerId);
+		}
 
-		await AuthenticationService.Instance.SignInAnonymouslyAsync();
-
-		playerName = "Mickael" + Random.Range(10, 99);
+		playerName = "Anonyme" + Random.Range(10, 99);
 		Debug.Log("Player Name: " + playerName);
 	}
+
 
 	void Update()
 	{
@@ -106,7 +106,7 @@ public class LobbyManager : MonoBehaviour
 		try
 		{
 			string lobbyName  = "MyLobby";
-			int    maxPlayers = 4;
+			int    maxPlayers = 2;
 
 			CreateLobbyOptions createLobbyOptions = new()
 			{

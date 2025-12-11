@@ -156,3 +156,5 @@ MonoBehaviour:
   distance: 0
   yMaxAxis: 90
   camera: {fileID: 0}
+  tiltAngle: 8
+  tiltDuration: 0.08

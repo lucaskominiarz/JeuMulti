@@ -44,6 +44,16 @@ public class NetworkTimer : NetworkBehaviour
                 GameManager.INSTANCE.SwapRolesServerRpc();
             }
         }
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            if (client.PlayerObject != null)
+            {
+                client.PlayerObject.GetComponent<PlayerNetwork>().HidersWinClientRpc();
+                break;
+            }
+        }
+        
+
     }
 
     private void UpdateUI(float value)
